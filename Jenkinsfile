@@ -6,11 +6,13 @@ pipeline{
                 checkout([$class: 'GitSCM', branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/fayizv/simple-maven-project']]])
             }
         }       
-       stage('Build'){
-            steps{
-                sh 'mvn clean package'
+       stage("Build Docker Image") {
+            steps {
+                script {
+                    sh 'docker build -t my-app .'
+                }
             }
-         }
+        }
         stage('SonarQube analysis') {
         steps{
         withSonarQubeEnv('sonarqube-9.2.2') { 
