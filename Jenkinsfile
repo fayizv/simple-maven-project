@@ -13,6 +13,7 @@ pipeline{
             steps {
                 script {
                     sh 'docker build -t my-app .'
+                    sh 'mvn -version'
                 }
             }
         }
