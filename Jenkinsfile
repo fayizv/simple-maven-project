@@ -23,11 +23,11 @@ pipeline{
         
         stage('build && SonarQube analysis') {
             steps {
-                withSonarQubeEnv('My SonarQube Server') {
+                withSonarQubeEnv('sonarqube-9.2.2') {
                     // Optionally use a Maven environment you've configured already
-                    withMaven(maven:'Maven 3.6.3') {
-                        sh 'mvn clean package sonar:sonar'
-                    }
+//                     withMaven(maven:'Maven 3.6.3') {
+//                         sh 'mvn clean package sonar:sonar'
+//                     }
                 }
             }
         }
