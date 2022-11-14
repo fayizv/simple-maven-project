@@ -21,8 +21,12 @@ pipeline{
        stage('pushing to dockerhub') {
             steps {
                 script {
-                    sh 'docker tag my-app:1.01 fayizv/myapp:1.01 '
-                    sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
+                    withCredentials([string(credentialsId: 'sonarqube2', variable: 'dockerhubpwd')]) {
+                    // some block
+                    sh 'docker login -u fayizv -p ${dockerhubpwd}'
+                    }
+//                     sh 'docker tag my-app:1.01 fayizv/myapp:1.01 '
+//                     sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
 
                     sh 'docker push fayizv/myapp:1.01 '
                 }
