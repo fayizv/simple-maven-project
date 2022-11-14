@@ -12,18 +12,22 @@ pipeline{
        stage("Build Docker Image") {
             steps {
                 script {
-                    sh 'docker build -t my-app .'
+                    sh 'docker build -t my-app:1.01 .'
                     sh 'mvn -version'
                 }
             }
         }
          
-    
-        stage('Push image') {
-            withDockerRegistry([ credentialsId: "dockerhubaccount", url: "https://hub.docker.com/u/fayizv" ]) {
-                dockerImage.push()
-             }
-        }    
+       stage('pushing to dockerhub') {
+            steps {
+                script {
+                    sh 'docker tag my-app:1.01 fayizv/myapp:1.01 '
+                    sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
+
+                    sh 'docker push fayizv/myapp:1.01 '
+                }
+            }
+        }   
 
         
         stage('build && SonarQube analysis') {
