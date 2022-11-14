@@ -21,7 +21,7 @@ pipeline{
        stage('pushing to dockerhub') {
             steps {
                 script {
-                    withCredentials([string(credentialsId: 'sonarqube2', variable: 'dockerhubpwd')]) {
+                    withCredentials([string(credentialsId: 'dockerhubpwd', variable: 'dockerhubpwd')]) {
                     // some block
                     sh 'docker login -u fayizv -p ${dockerhubpwd}'
                     }
