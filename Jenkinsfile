@@ -17,13 +17,14 @@ pipeline{
                 }
             }
         }
-//         stage('SonarQube analysis') {
-//         steps{
-//         withSonarQubeEnv('sonarqube-9.2.2') { 
-// //         sh "mvn sonar:sonar"
-//     }
-//         }
-//         }
+         
+    
+        stage('Push image') {
+            withDockerRegistry([ credentialsId: "dockerhubaccount", url: "https://hub.docker.com/u/fayizv" ]) {
+                dockerImage.push()
+             }
+        }    
+
         
         stage('build && SonarQube analysis') {
             steps {
@@ -35,15 +36,7 @@ pipeline{
                 }
             }
         }
-//         stage("Quality Gate") {
-//             steps {
-//                 timeout(time: 1, unit: 'MINUTES') {
-//                     // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-//                     // true = set pipeline to UNSTABLE, false = don't
-//                     waitForQualityGate abortPipeline: true
-//                 }
-//             }
-//         }
+
         stage("Quality gate") {
             steps {
                 waitForQualityGate abortPipeline: true
