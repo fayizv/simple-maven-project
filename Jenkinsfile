@@ -22,7 +22,7 @@ pipeline{
             steps {
                 script {
                     sh 'docker tag my-app:1.01 fayizv/myapp:1.01 '
-                    sh '$dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
+                    sh 'echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin'
 
                     sh 'docker push fayizv/myapp:1.01 '
                 }
