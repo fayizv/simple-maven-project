@@ -4,11 +4,30 @@ pipeline{
         maven 'local_maven'
     }
     stages {
-        stage("Build Maven") {
+        stage("Checkout") {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/fayizv/simple-maven-project']]])
             }
-        }       
+        }  
+        
+        
+       stage('Build Maven'){
+            steps{
+                sh 'mvn clean package'
+            }
+         }
+        
+        
+       stage('build && SonarQube analysis') {
+            steps {
+                withSonarQubeEnv('sonarqube-9.2.2') {
+                    // Optionally use a Maven environment you've configured already
+                   
+                        sh 'mvn clean package sonar:sonar'
+                    
+                }
+            }
+        }
        stage("Build Docker Image") {
             steps {
                 script {
@@ -42,16 +61,7 @@ pipeline{
         }
 
         
-        stage('build && SonarQube analysis') {
-            steps {
-                withSonarQubeEnv('sonarqube-9.2.2') {
-                    // Optionally use a Maven environment you've configured already
-                   
-                        sh 'mvn clean package sonar:sonar'
-                    
-                }
-            }
-        }
+
 
 //         stage("Quality gate") {
 //             steps {
