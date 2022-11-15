@@ -31,7 +31,15 @@ pipeline{
                     sh 'docker push fayizv/myapp:1.01 '
                 }
             }
-        }   
+        }  
+        
+        stage('logout docker') {
+            steps {
+                script {
+                    sh 'docker logout'
+                }
+            }
+        }
 
         
         stage('build && SonarQube analysis') {
