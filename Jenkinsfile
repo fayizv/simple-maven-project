@@ -52,6 +52,15 @@ pipeline{
             }
         }  
         
+        stage('Romove image') {
+            steps {
+                script {
+                    sh 'docker rmi -f 8c0bf8099b41'
+                }
+            }
+        }
+
+        
         stage('logout docker') {
             steps {
                 script {
