@@ -55,7 +55,7 @@ pipeline{
         stage('Romove image') {
             steps {
                 script {
-                    sh 'docker rmi -f 8c0bf8099b41'
+                    sh 'docker rmi -f my-app:1.01'
                 }
             }
         }
